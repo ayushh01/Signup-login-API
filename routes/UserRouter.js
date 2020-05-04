@@ -38,12 +38,11 @@ route.post('/login',passport.authenticate('local'),(req,res,next)=>{
 });
 
 route.get('/logout',(req,res,next)=>{
-    if(req.session)
+    if(req.user)
     {
         req.session.destroy();
         res.clearCookie('session-id');
-        res.redirect('/users');
-        
+        res.redirect('/home');       
     }
     else {
         var err = new Error('You are not logged in!');

@@ -7,6 +7,7 @@ const FileStore = require('session-file-store')(session);
 const passport = require('passport');
 const authenticate = require('./authenticate');
 
+var indexRouter = require('./routes/index');
 const userRouter = require('./routes/UserRouter');
 
 const hostname = 'localhost';
@@ -39,6 +40,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/home', indexRouter);
 app.use('/users', userRouter);
 
 function auth(req,res,next){
@@ -56,11 +58,11 @@ function auth(req,res,next){
 
 app.use(auth);
 
-app.use('/',(req,res,next)=>{
+app.use('/profile',(req,res)=>{
     res.statusCode = 200;
     res.setHeader('Content-type','text/html');
-    res.end('<html><body><h1>This is express Server</h1></body></html>');
-});
+    res.end('You are here After Authorization');
+})
 
 const server = http.createServer(app);
 
